@@ -2,8 +2,11 @@ package com.akrams.qp_assessment.dto;
 
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
+@Component
 public class GroceryDto {
 
     private Integer groceryId;

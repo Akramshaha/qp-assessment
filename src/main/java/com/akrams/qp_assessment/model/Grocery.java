@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "groceries")
@@ -24,6 +25,9 @@ public class Grocery {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "grocery", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> cartList;
 
     public Integer getId() {
         return id;
@@ -63,5 +67,13 @@ public class Grocery {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Cart> getChildren() {
+        return cartList;
+    }
+
+    public void setChildren(List<Cart> cartList) {
+        this.cartList = cartList;
     }
 }

@@ -1,6 +1,5 @@
 package com.akrams.qp_assessment.config;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,10 +56,15 @@ public class SpringSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+    /*"/swagger-ui/**","/v3/api-docs/**"*/
+    /*@Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Your API Title")
+                        .version("1.0.0")
+                        .description("API description"));
+    }*/
 
-    @Bean
-    public ModelMapper modelMapper(){
-        return new ModelMapper();
-    }
 
 }

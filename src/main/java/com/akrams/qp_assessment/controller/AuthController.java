@@ -4,6 +4,7 @@ import com.akrams.qp_assessment.dto.JwtAuthResponse;
 import com.akrams.qp_assessment.dto.LoginDto;
 import com.akrams.qp_assessment.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,11 @@ public class AuthController {
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setAccessToken(token);
 
-        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
+        HttpHeaders httpheaders = new HttpHeaders();
+
+        // Set the Authorization header
+        httpheaders.set("Authorization", token);
+
+        return ResponseEntity.ok().headers(httpheaders).body(jwtAuthResponse);
     }
 }

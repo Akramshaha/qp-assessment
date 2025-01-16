@@ -12,5 +12,7 @@ public interface GroceryService {
     void removeGrocery(Integer id);
     List<Grocery> findAllGroceries();
     GroceryDto findById(Integer id);
+    Grocery findGroceryById(Integer id);
+
 
 }

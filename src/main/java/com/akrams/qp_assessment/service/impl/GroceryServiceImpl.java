@@ -2,9 +2,9 @@ package com.akrams.qp_assessment.service.impl;
 
 import com.akrams.qp_assessment.dto.GroceryDto;
 import com.akrams.qp_assessment.model.Grocery;
+import com.akrams.qp_assessment.repository.CartRepository;
 import com.akrams.qp_assessment.repository.GroceryRepository;
 import com.akrams.qp_assessment.service.GroceryService;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,10 @@ import java.util.List;
 @Service
 public class GroceryServiceImpl implements GroceryService {
 
-    Logger logger = LoggerFactory.getLogger(GroceryServiceImpl.class);
-
     @Autowired
     private GroceryRepository groceryRepository;
     @Autowired
-    private ModelMapper modelMapper;
+    private CartRepository cartRepository;
 
     @Override
     public GroceryDto addNewGrocery(GroceryDto groceryDto) {
@@ -52,11 +50,16 @@ public class GroceryServiceImpl implements GroceryService {
         return convertModeltoDto(new GroceryDto(),groceryRepository.findById(id).get());
     }
 
+    @Override
+    public Grocery findGroceryById(Integer id) {
+        return groceryRepository.findById(id).get();
+    }
+
     public Grocery convertDTOtoModel(Grocery grocery, GroceryDto groceryDto){
        if(groceryDto.getGroceryId() != null) {
             grocery.setId(groceryDto.getGroceryId());
         }
-        if(StringUtils.hasText(groceryDto.getName())) {
+        if(StringUtils.hasLength(groceryDto.getName()) || groceryDto.getName() != null) {
             grocery.setName(groceryDto.getName());
         }
         if(groceryDto.getPrice() != null) {

@@ -2,6 +2,7 @@ package com.akrams.qp_assessment.service.impl;
 
 import com.akrams.qp_assessment.config.JwtTokenProvider;
 import com.akrams.qp_assessment.dto.LoginDto;
+import com.akrams.qp_assessment.repository.UserRepository;
 import com.akrams.qp_assessment.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class AuthServiceImpl implements AuthService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public String login(LoginDto loginDto) {
@@ -31,5 +34,12 @@ public class AuthServiceImpl implements AuthService {
         String token = jwtTokenProvider.generateToken(authentication);
 
         return token;
+    }
+
+    @Override
+    public Integer getUserIdFromToken(String token) {
+        String username = jwtTokenProvider.getUsername(token);
+        int userId = userRepository.findByEmail(username).get().getId();
+        return userId;
     }
 }
