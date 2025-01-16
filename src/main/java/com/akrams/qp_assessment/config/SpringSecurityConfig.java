@@ -1,5 +1,6 @@
 package com.akrams.qp_assessment.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,9 +38,9 @@ public class SpringSecurityConfig {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
-//                    authorize.requestMatchers(HttpMethod.POST, "/api/admin/**").hasRole("ADMIN");
-//                    authorize.requestMatchers(HttpMethod.PATCH, "/api/user/**").hasAnyRole("ADMIN", "USER");
-                    authorize.requestMatchers("/api/auth/**").permitAll();
+                    authorize.requestMatchers("/api/admin/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.GET, "/api/groceries/**").hasAnyRole("ADMIN", "USER");
+                    authorize.requestMatchers("/api/auth/login").permitAll();
                     authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
@@ -56,4 +57,10 @@ public class SpringSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
+    }
+
 }
